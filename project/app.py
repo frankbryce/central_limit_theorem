@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 import json
 import numpy as np
+import distribution
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TODO - wtf is this?'
@@ -25,11 +26,14 @@ def jsEnc(data):
 def index():
     return render_template('index.html')
 
-@socketio.on('random')
-def onrandom(width, height):
-    print('send random')
+@socketio.on('get')
+def onrandom(p, ndist, ngets):
+    sums = distribution.make(distribution.flip_coin(p),ndist,ngets)
     emit('json', {
-        'random_array': jsEnc(np.random.randint(2, size=(width,height))),
+        'sums': jsEnc(sums),
+        'p': jsEnc(p),
+        'ndist': jsEnc(ndist),
+        'ngets': jsEnc(ngets),
     })
 
 @socketio.on('connect')
