@@ -28,8 +28,21 @@ def index():
 
 @socketio.on('get')
 def onrandom(p, ndist, ngets):
-    sums = distribution.make(distribution.flip_coin(p),ndist,ngets)
+    sums = distribution.make([distribution.flip_coin(p)],ndist,ngets)
     emit('json', {
+        'sums': jsEnc(sums),
+        'p': jsEnc(p),
+        'ndist': jsEnc(ndist),
+        'ngets': jsEnc(ngets),
+    })
+
+@socketio.on('get2')
+def onrandom(p, ndist, ngets):
+    gets = []
+    gets.append(distribution.flip_coin(p))
+    gets.append(distribution.flip_coin(1-p))
+    sums = distribution.make(gets,ndist,ngets)
+    emit('json2', {
         'sums': jsEnc(sums),
         'p': jsEnc(p),
         'ndist': jsEnc(ndist),

@@ -6,8 +6,8 @@ from tqdm import tqdm
 
 def flip_coin(p: float) -> int:
     class CoinFlip(Enum):
-        HEADS = 1
-        TAILS = 2
+        HEADS = 0
+        TAILS = 1
     def get():
         if np.random.random() < p:
             return CoinFlip.HEADS.value
@@ -15,16 +15,17 @@ def flip_coin(p: float) -> int:
 
     return get
 
-def run(get, n: int) -> int:
+def run(gets, n: int) -> int:
     s = 0
     for _ in range(n):
-        s += get()
+        for get in gets:
+            s += get()
     return s
 
-def make(get, ndists: int, ngets: int) -> list[int]:
+def make(gets, ndists: int, ngets: int) -> list[int]:
     sums = list()
     for _ in tqdm(range(ndists), desc="Generating Distribution"):
-        sums.append(run(get, ngets))
+        sums.append(run(gets, ngets))
     return sums
 
 
