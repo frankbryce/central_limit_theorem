@@ -1,2 +1,3 @@
-# hello-app
-Basic Flask app with Python. Want to use it as a starting point for other python web apps where I want visual output for some experiment or another.
+# Central Limit Theorem
+
+Visualize disparate distributions added together, when you sum the results of sampling many times.
